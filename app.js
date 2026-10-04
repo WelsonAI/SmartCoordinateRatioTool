@@ -75,9 +75,9 @@ const ACTIVITIES = {
     guides: [ml("Bina Kumpulan A.", "建立 A 组。", "Build Group A."), ml("Bina Kumpulan B.", "建立 B 组。", "Build Group B."), ml("Baca A : B mengikut urutan.", "按次序读 A : B。", "Read A : B in order.")]
   },
   ratioParts: {
-    label: ml("Bahagian kepada bahagian / keseluruhan", "部分比部分／整体", "Part-to-part / whole"),
-    scope: ml("Tahun 5 · Bezakan dua jenis perbandingan", "五年级 · 分辨两种比较方式", "Year 5 · Distinguish two comparisons"),
-    tip: ml("Pilih ayat penuh: bandingkan A dengan B, atau bandingkan A dengan semua objek.", "请选择完整句子：比较 A 组和 B 组，或比较 A 组和全部物品。", "Choose a full sentence: compare A with B, or A with all objects."),
+    label: ml("Tiga jenis perbandingan nisbah", "比的三种比较方式", "Three ratio comparisons"),
+    scope: ml("Tahun 5 · Bahagian:bahagian, bahagian:keseluruhan, keseluruhan:bahagian", "五年级 · 部分:部分、部分:整体、整体:部分", "Year 5 · Part:part, part:whole, whole:part"),
+    tip: ml("Pilih ayat penuh supaya urutan dua kuantiti yang dibandingkan sentiasa jelas.", "选择完整句子，先看清楚前后分别比较什么。", "Choose a full sentence so the order of both quantities stays clear."),
     guides: [ml("Kira objek hijau A dan ungu B.", "数绿色 A 与紫色 B。", "Count green A and purple B."), ml("Pilih perkara yang hendak dibandingkan.", "选择到底要比较什么。", "Choose what to compare."), ml("Ikut kotak berwarna untuk menulis nisbah.", "跟着彩色说明框写出比。", "Follow the coloured boxes to write the ratio.")]
   },
   ratioSimplify: {
@@ -98,6 +98,12 @@ const ACTIVITIES = {
     tip: ml("Ikut anak panah: cari faktor pada baris atas, kemudian guna faktor yang sama pada baris bawah.", "跟着箭头：先从上排找倍数，再把同一个倍数用在下排。", "Follow the arrows: find the multiplier on the top row, then use it on the bottom row."),
     guides: [ml("Bahagi nombor kanan atas dengan kiri atas.", "用右上数除以左上数。", "Divide the upper-right by the upper-left."), ml("Itulah faktor pendarab.", "得到共同倍数。", "That is the multiplier."), ml("Darab nombor kiri bawah dengan faktor itu.", "下排左边数乘以这个倍数。", "Multiply the lower-left by that factor.")]
   },
+  ratioQuantity: {
+    label: ml("Kuantiti berdasarkan nisbah", "按比例求数量", "Quantities from a ratio"),
+    scope: ml("Tahun 6 · Tentukan satu atau dua kuantiti daripada nisbah", "六年级 · 根据所给的比确定一个或两个数量", "Year 6 · Find one or two quantities from a given ratio"),
+    tip: ml("Setiap blok ialah satu bahagian yang sama besar. Cari nilai satu bahagian dahulu.", "每个色块都是同样大的一份；先求一份是多少。", "Every block is one equal part. Find the value of one part first."),
+    guides: [ml("Baca bilangan bahagian A dan B.", "先看 A 与 B 各有几份。", "Read the A and B ratio parts."), ml("Gunakan kuantiti yang diberi untuk mencari satu bahagian.", "利用已知数量求出一份。", "Use the given quantity to find one part."), ml("Darab nilai satu bahagian dengan bilangan bahagian.", "一份的数量乘以份数。", "Multiply one part by the number of parts.")]
+  },
   mapScale: {
     label: ml("Makmal skala peta", "地图比例尺实验室", "Map scale lab"),
     scope: ml("Tahun 6 · Skala peta dan jarak sebenar", "六年级 · 地图比例尺与实际距离", "Year 6 · Map scale and actual distance"),
@@ -109,7 +115,7 @@ const ACTIVITIES = {
 const PLAN = {
   4: { coordinate: ["coordinatePlot"], ratio: ["ratioObjects"], proportion: ["unitRate"] },
   5: { coordinate: ["coordinateDistance", "coordinateRoute"], ratio: ["ratioParts"], proportion: ["proportionUnknown"] },
-  6: { coordinate: ["scaledCoordinates"], ratio: ["ratioSimplify"], proportion: ["mapScale"] }
+  6: { coordinate: ["scaledCoordinates"], ratio: ["ratioSimplify"], proportion: ["ratioQuantity", "mapScale"] }
 };
 
 const defaults = () => ({
@@ -117,11 +123,12 @@ const defaults = () => ({
   coordinateDistance: { A: { x: 2, y: 3 }, B: { x: 8, y: 7 } },
   coordinateRoute: { A: { x: 1, y: 2 }, B: { x: 7, y: 3 }, C: { x: 8, y: 8 } },
   scaledCoordinates: { A: { x: 2, y: 3 }, B: { x: 8, y: 7 }, scale: 2 },
-  ratioObjects: { a: 3, b: 5, view: "partPart" },
+  ratioObjects: { a: 3, b: 5, view: "partPart", scalePreset: "objects" },
   ratioParts: { a: 4, b: 6, view: "partPart" },
   ratioSimplify: { a: 12, b: 18, view: "partPart" },
   unitRate: { unitCost: 3, quantity: 4 },
   proportionUnknown: { a: 3, b: 5, multiplier: 4 },
+  ratioQuantity: { a: 2, b: 3, unit: 4, knownMode: "knownA" },
   mapScale: { A: { x: 2, y: 2 }, B: { x: 8, y: 5 }, scale: 2 }
 });
 
@@ -206,6 +213,7 @@ function renderGuide(steps) {
 function renderActivity() {
   if (["coordinatePlot", "coordinateDistance", "coordinateRoute", "scaledCoordinates"].includes(state.activity)) renderCoordinate();
   else if (["ratioObjects", "ratioParts", "ratioSimplify"].includes(state.activity)) renderRatio();
+  else if (state.activity === "ratioQuantity") renderRatioQuantity();
   else if (state.activity === "mapScale") renderMapScale();
   else renderProportion();
 }
@@ -348,19 +356,45 @@ function attachCoordinateHandlers() {
 function renderRatio() {
   const id = state.activity;
   const data = state.values[id];
+  const presetPicker = id === "ratioObjects" ? ratioPresetPicker(data) : "";
+  if (id === "ratioObjects" && data.scalePreset !== "objects") {
+    const largeValue = data.scalePreset === "hundred" ? 100 : 1000;
+    els.stage.innerHTML = `<div class="stage-stack">${largeRatioVisual(largeValue)}<div class="large-ratio-explain"><span>1 ${t(ml("unit", "个", "unit"))}</span><b>:</b><span>${largeValue} ${t(ml("unit", "个", "units"))}</span></div></div>`;
+    els.controls.innerHTML = `${presetPicker}<div class="action-row"><button id="newExampleButton" class="primary-button" type="button">🎲 ${t(I18N.newExample)}</button></div>`;
+    bindRatioPresetButtons(data);
+    document.querySelector("#newExampleButton").addEventListener("click", randomizeCurrent);
+    updateRatioDom();
+    return;
+  }
   const groupA = tokenGroup("a", "A", "#20a889", data.a);
   const groupB = tokenGroup("b", "B", "#8062c6", data.b);
   const groups = id === "ratioSimplify" ? `<div id="ratioGroups" class="ratio-groups"></div>` : "";
   const comparisonExplain = id === "ratioParts" ? `<div id="comparisonExplain" class="comparison-explain"></div>` : "";
   els.stage.innerHTML = `<div class="stage-stack"><div class="ratio-board">${groupA}<div class="ratio-symbol">:</div>${groupB}</div><div id="ratioBar" class="ratio-bar"><div class="bar-a"></div><div class="bar-b"></div></div>${comparisonExplain}${groups}</div>`;
-  const compare = id === "ratioParts" ? `<div class="comparison-picker"><div class="comparison-question">${t(ml("Apakah yang hendak dibandingkan?", "你要比较什么？", "What do you want to compare?"))}</div><div class="choice-row"><button class="choice-chip comparison-choice ${data.view === "partPart" ? "active" : ""}" data-view="partPart" type="button"><span>🟢 ↔ 🟣</span><strong>${t(ml("Bandingkan A dengan B", "比较 A 组和 B 组", "Compare A with B"))}</strong><small>A : B</small></button><button class="choice-chip comparison-choice ${data.view === "partWhole" ? "active" : ""}" data-view="partWhole" type="button"><span>🟢 ↔ 🟢🟣</span><strong>${t(ml("Bandingkan A dengan semua", "比较 A 组和全部", "Compare A with all"))}</strong><small>A : ${t(I18N.total)}</small></button></div></div>` : "";
-  els.controls.innerHTML = `${compare}<div class="range-grid">${rangeControl("ratioA", t(I18N.first), data.a, 1, 24, "")}${rangeControl("ratioB", t(I18N.second), data.b, 1, 24, "")}</div><div class="action-row"><button id="newExampleButton" class="primary-button" type="button">🎲 ${t(I18N.newExample)}</button></div>`;
+  const compare = id === "ratioParts" ? `<div class="comparison-picker"><div class="comparison-question">${t(ml("Apakah yang hendak dibandingkan?", "你要比较什么？", "What do you want to compare?"))}</div><div class="choice-row"><button class="choice-chip comparison-choice ${data.view === "partPart" ? "active" : ""}" data-view="partPart" type="button"><span>🟢 ↔ 🟣</span><strong>${t(ml("Bandingkan A dengan B", "比较 A 组和 B 组", "Compare A with B"))}</strong><small>A : B</small></button><button class="choice-chip comparison-choice ${data.view === "partWhole" ? "active" : ""}" data-view="partWhole" type="button"><span>🟢 ↔ 🟢🟣</span><strong>${t(ml("Bandingkan A dengan semua", "比较 A 组和全部", "Compare A with all"))}</strong><small>A : ${t(I18N.total)}</small></button><button class="choice-chip comparison-choice ${data.view === "wholePart" ? "active" : ""}" data-view="wholePart" type="button"><span>🟢🟣 ↔ 🟢</span><strong>${t(ml("Bandingkan semua dengan A", "比较全部和 A 组", "Compare all with A"))}</strong><small>${t(I18N.total)} : A</small></button></div></div>` : "";
+  els.controls.innerHTML = `${presetPicker}${compare}<div class="range-grid">${rangeControl("ratioA", t(I18N.first), data.a, 1, 24, "")}${rangeControl("ratioB", t(I18N.second), data.b, 1, 24, "")}</div><div class="action-row"><button id="newExampleButton" class="primary-button" type="button">🎲 ${t(I18N.newExample)}</button></div>`;
+  if (id === "ratioObjects") bindRatioPresetButtons(data);
   document.querySelectorAll("[data-token-side]").forEach((token) => token.addEventListener("click", () => { data[token.dataset.tokenSide] = +token.dataset.value; syncRatioControls(); updateRatioDom(); }));
   document.querySelector("#ratioA").addEventListener("input", (e) => { data.a = +e.target.value; syncRatioControls(); updateRatioDom(); });
   document.querySelector("#ratioB").addEventListener("input", (e) => { data.b = +e.target.value; syncRatioControls(); updateRatioDom(); });
   document.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => { data.view = button.dataset.view; renderRatio(); }));
   document.querySelector("#newExampleButton").addEventListener("click", randomizeCurrent);
   updateRatioDom();
+}
+
+function ratioPresetPicker(data) {
+  return `<div class="ratio-preset-picker"><div class="comparison-question">${t(ml("Pilih cara perwakilan", "选择表示方式", "Choose a representation"))}</div><div class="choice-row"><button class="choice-chip ${data.scalePreset === "objects" ? "active" : ""}" data-ratio-preset="objects" type="button">● ${t(ml("Objek kecil", "一般数量", "Small quantities"))}</button><button class="choice-chip ${data.scalePreset === "hundred" ? "active" : ""}" data-ratio-preset="hundred" type="button">1 : 100</button><button class="choice-chip ${data.scalePreset === "thousand" ? "active" : ""}" data-ratio-preset="thousand" type="button">1 : 1000</button></div></div>`;
+}
+
+function bindRatioPresetButtons(data) {
+  document.querySelectorAll("[data-ratio-preset]").forEach((button) => button.addEventListener("click", () => { data.scalePreset = button.dataset.ratioPreset; renderRatio(); }));
+}
+
+function largeRatioVisual(value) {
+  const representation = value === 100
+    ? `<div class="hundred-flat" aria-label="100">${Array.from({ length: 100 }, () => "<i></i>").join("")}</div><strong>10 × 10 = 100</strong>`
+    : `<div class="thousand-bundle" aria-label="1000">${Array.from({ length: 10 }, (_, i) => `<i><span>${i + 1}</span><b>100</b></i>`).join("")}</div><strong>10 × 100 = 1000</strong>`;
+  return `<div class="large-ratio-board"><div class="place-value-card unit-card"><span>A</span><div class="single-unit"></div><strong>1 ${t(ml("unit", "个", "unit"))}</strong></div><div class="ratio-symbol">:</div><div class="place-value-card bundle-card"><span>B</span>${representation}</div></div>`;
 }
 
 function tokenGroup(side, name, color, value) {
@@ -378,13 +412,18 @@ function syncRatioControls() {
 }
 function updateRatioDom() {
   const id = state.activity, data = state.values[id];
+  if (id === "ratioObjects" && data.scalePreset !== "objects") {
+    const largeValue = data.scalePreset === "hundred" ? 100 : 1000;
+    els.challenge.innerHTML = challenge(`1 : ${largeValue}`, t(ml(`1 unit dibandingkan dengan ${largeValue} unit.`, `1 个与 ${largeValue} 个作比较。`, `1 unit is compared with ${largeValue} units.`)));
+    els.summary.textContent = t(ml(`Nisbah dibaca satu kepada ${largeValue}.`, `这个比读作一比${largeValue}。`, `Read the ratio as one to ${largeValue}.`));
+    return;
+  }
   document.querySelector("#tokenCountA").textContent = data.a;
   document.querySelector("#tokenCountB").textContent = data.b;
   document.querySelector("#tokensA").innerHTML = tokens("a", "#20a889", data.a);
   document.querySelector("#tokensB").innerHTML = tokens("b", "#8062c6", data.b);
   document.querySelectorAll("[data-token-side]").forEach((token) => token.addEventListener("click", () => { data[token.dataset.tokenSide] = +token.dataset.value; syncRatioControls(); updateRatioDom(); }));
   const left = document.querySelector("#ratioBar .bar-a"), right = document.querySelector("#ratioBar .bar-b");
-  const rightValue = data.view === "partWhole" ? data.a + data.b : data.b;
   left.style.flex = data.a; right.style.flex = data.view === "partWhole" ? data.b : data.b;
   left.textContent = `A = ${data.a}`; right.textContent = `B = ${data.b}`;
   const divisor = gcd(data.a, data.b), sa = data.a / divisor, sb = data.b / divisor;
@@ -394,13 +433,22 @@ function updateRatioDom() {
     els.challenge.innerHTML = challenge(`${data.a} : ${data.b} = ${sa} : ${sb}`, t(ml(`Bahagi kedua-dua nombor dengan ${divisor}.`, `两个数同时除以 ${divisor}。`, `Divide both numbers by ${divisor}.`)));
     els.summary.textContent = t(ml(`FSTB = ${divisor} → nisbah termudah ${sa} : ${sb}`, `最大公因数 = ${divisor} → 最简比 ${sa} : ${sb}`, `GCF = ${divisor} → simplest ratio ${sa} : ${sb}`));
   } else if (id === "ratioParts") {
-    const shownRight = data.view === "partWhole" ? data.a + data.b : data.b;
-    const label = data.view === "partWhole" ? `A : ${t(I18N.total)}` : "A : B";
-    document.querySelector("#comparisonExplain").innerHTML = data.view === "partWhole"
-      ? `<div class="compare-chip chip-a"><span>${t(ml("Bahagian A", "A 组", "Part A"))}</span><b>${data.a}</b></div><span class="compare-vs">:</span><div class="compare-chip chip-whole"><span>${t(ml("Semua objek", "全部物品", "All objects"))}</span><b>${data.a} + ${data.b} = ${data.a + data.b}</b></div><div class="compare-answer">${data.a} : ${data.a + data.b}</div>`
-      : `<div class="compare-chip chip-a"><span>${t(ml("Kumpulan A", "A 组", "Group A"))}</span><b>${data.a}</b></div><span class="compare-vs">:</span><div class="compare-chip chip-b"><span>${t(ml("Kumpulan B", "B 组", "Group B"))}</span><b>${data.b}</b></div><div class="compare-answer">${data.a} : ${data.b}</div>`;
-    els.challenge.innerHTML = challenge(`${label} = ${data.a} : ${shownRight}`, data.view === "partWhole" ? t(ml(`${data.a} bahagian A daripada ${data.a + data.b} objek.`, `${data.a} 个 A，占全部 ${data.a + data.b} 个物品。`, `${data.a} A items out of ${data.a + data.b} objects.`)) : t(ml("Bandingkan dua bahagian sahaja.", "只比较两个部分。", "Compare the two parts only.")));
-    els.summary.textContent = data.view === "partWhole" ? `${data.a} : (${data.a} + ${data.b}) = ${data.a} : ${data.a + data.b}` : `A : B = ${data.a} : ${data.b}`;
+    const total = data.a + data.b;
+    let label = "A : B", leftValue = data.a, rightValue = data.b;
+    let explanation = t(ml("Bandingkan dua bahagian sahaja.", "只比较两个部分。", "Compare the two parts only."));
+    let visual = `<div class="compare-chip chip-a"><span>${t(ml("Kumpulan A", "A 组", "Group A"))}</span><b>${data.a}</b></div><span class="compare-vs">:</span><div class="compare-chip chip-b"><span>${t(ml("Kumpulan B", "B 组", "Group B"))}</span><b>${data.b}</b></div><div class="compare-answer">${data.a} : ${data.b}</div>`;
+    if (data.view === "partWhole") {
+      label = `A : ${t(I18N.total)}`; rightValue = total;
+      explanation = t(ml(`${data.a} bahagian A daripada ${total} objek.`, `${data.a} 个 A，占全部 ${total} 个物品。`, `${data.a} A items out of ${total} objects.`));
+      visual = `<div class="compare-chip chip-a"><span>${t(ml("Bahagian A", "A 组", "Part A"))}</span><b>${data.a}</b></div><span class="compare-vs">:</span><div class="compare-chip chip-whole"><span>${t(ml("Semua objek", "全部物品", "All objects"))}</span><b>${data.a} + ${data.b} = ${total}</b></div><div class="compare-answer">${data.a} : ${total}</div>`;
+    } else if (data.view === "wholePart") {
+      label = `${t(I18N.total)} : A`; leftValue = total; rightValue = data.a;
+      explanation = t(ml(`${total} objek semuanya dibandingkan dengan ${data.a} objek A.`, `全部 ${total} 个物品与 ${data.a} 个 A 比较。`, `All ${total} objects are compared with ${data.a} A items.`));
+      visual = `<div class="compare-chip chip-whole"><span>${t(ml("Semua objek", "全部物品", "All objects"))}</span><b>${data.a} + ${data.b} = ${total}</b></div><span class="compare-vs">:</span><div class="compare-chip chip-a"><span>${t(ml("Bahagian A", "A 组", "Part A"))}</span><b>${data.a}</b></div><div class="compare-answer">${total} : ${data.a}</div>`;
+    }
+    document.querySelector("#comparisonExplain").innerHTML = visual;
+    els.challenge.innerHTML = challenge(`${label} = ${leftValue} : ${rightValue}`, explanation);
+    els.summary.textContent = `${label} = ${leftValue} : ${rightValue}`;
   } else {
     els.challenge.innerHTML = challenge(`A : B = ${data.a} : ${data.b}`, t(ml("Nisbah dibaca mengikut urutan kumpulan.", "比必须按照组别次序读取。", "Read the ratio in group order.")));
     els.summary.textContent = t(ml(`${data.a} objek hijau kepada ${data.b} objek ungu`, `${data.a} 个绿色物品比 ${data.b} 个紫色物品`, `${data.a} green objects to ${data.b} purple objects`));
@@ -454,6 +502,55 @@ function updateProportionDom() {
     document.querySelector("#unknownValue").textContent = y;
     els.challenge.innerHTML = challenge(`${data.a} : ${data.b} = ${x} : □`, t(ml("Cari faktor pada baris atas, kemudian lengkapkan kotak.", "先从上排找倍数，再完成方格里的未知数。", "Find the multiplier on the top row, then complete the box.")));
     els.summary.textContent = t(ml(`Jawapan: ${data.b} × ${data.multiplier} = ${y}`, `答案：${data.b} × ${data.multiplier} = ${y}`, `Answer: ${data.b} × ${data.multiplier} = ${y}`));
+  }
+}
+
+function renderRatioQuantity() {
+  const data = state.values.ratioQuantity;
+  els.stage.innerHTML = `<div class="quantity-ratio-lab"><div class="ratio-parts-heading"><span>${t(ml("Nisbah diberi", "所给的比", "Given ratio"))}</span><strong id="quantityRatioLabel"></strong><small>${t(ml("Setiap blok = satu bahagian sama besar", "每个色块 = 同样大的一份", "Each block = one equal part"))}</small></div><div class="ratio-parts-visual"><div class="quantity-group quantity-group-a"><div class="quantity-group-title"><span>A</span><b id="quantityAParts"></b></div><div id="quantityABlocks" class="quantity-blocks"></div></div><div class="quantity-group quantity-group-b"><div class="quantity-group-title"><span>B</span><b id="quantityBParts"></b></div><div id="quantityBBlocks" class="quantity-blocks"></div></div></div><div id="quantityGiven" class="quantity-given"></div><div class="quantity-solve-steps"><div><b>1</b><span id="quantityStep1Label"></span><strong id="quantityStep1"></strong></div><div><b>2</b><span>${t(ml("Cari satu bahagian", "求一份", "Find one part"))}</span><strong id="quantityStep2"></strong></div><div><b>3</b><span id="quantityStep3Label"></span><strong id="quantityStep3"></strong></div></div><div class="metric-row quantity-results"><div class="metric"><span>A</span><strong id="quantityAResult"></strong></div><div class="metric"><span>B</span><strong id="quantityBResult"></strong></div><div class="metric active"><span>${t(I18N.total)}</span><strong id="quantityTotalResult"></strong></div></div></div>`;
+  els.controls.innerHTML = `<div class="comparison-picker"><div class="comparison-question">${t(ml("Apakah maklumat yang diberi?", "题目给了什么？", "What information is given?"))}</div><div class="choice-row"><button class="choice-chip known-choice ${data.knownMode === "knownA" ? "active" : ""}" data-known-mode="knownA" type="button"><strong>${t(ml("Diberi kuantiti A", "已知 A 的数量", "A quantity is given"))}</strong><small>${t(ml("Cari B", "求 B", "Find B"))}</small></button><button class="choice-chip known-choice ${data.knownMode === "knownTotal" ? "active" : ""}" data-known-mode="knownTotal" type="button"><strong>${t(ml("Diberi jumlah", "已知总数", "Total is given"))}</strong><small>${t(ml("Cari A dan B", "求 A 和 B", "Find A and B"))}</small></button></div></div><div class="range-grid quantity-ranges">${rangeControl("ratioQtyA", t(ml("Bahagian A dalam nisbah", "比中 A 的份数", "A parts in the ratio")), data.a, 1, 8, "")}${rangeControl("ratioQtyB", t(ml("Bahagian B dalam nisbah", "比中 B 的份数", "B parts in the ratio")), data.b, 1, 8, "")}${rangeControl("ratioQtyUnit", t(ml("Nilai setiap bahagian", "每一份的数量", "Value of each part")), data.unit, 1, 12, "")}</div><div class="action-row"><button id="newExampleButton" class="primary-button" type="button">🎲 ${t(I18N.newExample)}</button></div>`;
+  document.querySelectorAll("[data-known-mode]").forEach((button) => button.addEventListener("click", () => { data.knownMode = button.dataset.knownMode; renderRatioQuantity(); }));
+  bindSimpleRange("ratioQtyA", "a", updateRatioQuantityDom);
+  bindSimpleRange("ratioQtyB", "b", updateRatioQuantityDom);
+  bindSimpleRange("ratioQtyUnit", "unit", updateRatioQuantityDom);
+  document.querySelector("#newExampleButton").addEventListener("click", randomizeCurrent);
+  updateRatioQuantityDom();
+}
+
+function quantityBlocks(count, unit) {
+  return Array.from({ length: count }, () => `<i><span>${unit}</span></i>`).join("");
+}
+
+function updateRatioQuantityDom() {
+  const data = state.values.ratioQuantity;
+  const valueA = data.a * data.unit, valueB = data.b * data.unit, totalParts = data.a + data.b, total = valueA + valueB;
+  document.querySelector("#quantityRatioLabel").textContent = `A : B = ${data.a} : ${data.b}`;
+  document.querySelector("#quantityAParts").textContent = `${data.a} ${t(ml("bahagian", "份", "parts"))}`;
+  document.querySelector("#quantityBParts").textContent = `${data.b} ${t(ml("bahagian", "份", "parts"))}`;
+  document.querySelector("#quantityABlocks").innerHTML = quantityBlocks(data.a, data.unit);
+  document.querySelector("#quantityBBlocks").innerHTML = quantityBlocks(data.b, data.unit);
+  document.querySelector("#quantityAResult").textContent = valueA;
+  document.querySelector("#quantityBResult").textContent = valueB;
+  document.querySelector("#quantityTotalResult").textContent = total;
+  const given = document.querySelector("#quantityGiven");
+  if (data.knownMode === "knownTotal") {
+    given.innerHTML = `<span>${t(ml("Diberi", "已知", "Given"))}</span><strong>${t(I18N.total)} = ${total}</strong><small>${t(ml("Cari kuantiti A dan B", "求 A 和 B 的数量", "Find quantities A and B"))}</small>`;
+    document.querySelector("#quantityStep1Label").textContent = t(ml("Kira jumlah bahagian", "先算总份数", "Count all parts"));
+    document.querySelector("#quantityStep1").textContent = `${data.a} + ${data.b} = ${totalParts} ${t(ml("bahagian", "份", "parts"))}`;
+    document.querySelector("#quantityStep2").textContent = `${total} ÷ ${totalParts} = ${data.unit}`;
+    document.querySelector("#quantityStep3Label").textContent = t(ml("Cari A dan B", "求 A 和 B", "Find A and B"));
+    document.querySelector("#quantityStep3").textContent = `A: ${data.a} × ${data.unit} = ${valueA} · B: ${data.b} × ${data.unit} = ${valueB}`;
+    els.challenge.innerHTML = challenge(`A : B = ${data.a} : ${data.b} · ${t(I18N.total)} = ${total}`, t(ml("Cari A dan B dengan nilai satu bahagian.", "先求一份，再求 A 和 B。", "Find one part, then find A and B.")));
+    els.summary.textContent = `${total} ÷ (${data.a} + ${data.b}) = ${data.unit}; A = ${valueA}, B = ${valueB}`;
+  } else {
+    given.innerHTML = `<span>${t(ml("Diberi", "已知", "Given"))}</span><strong>A = ${valueA}</strong><small>${t(ml("Cari kuantiti B", "求 B 的数量", "Find quantity B"))}</small>`;
+    document.querySelector("#quantityStep1Label").textContent = t(ml("Lihat bahagian A", "先看 A 有几份", "Read A's parts"));
+    document.querySelector("#quantityStep1").textContent = `A = ${data.a} ${t(ml("bahagian", "份", "parts"))}`;
+    document.querySelector("#quantityStep2").textContent = `${valueA} ÷ ${data.a} = ${data.unit}`;
+    document.querySelector("#quantityStep3Label").textContent = t(ml("Cari B", "求 B", "Find B"));
+    document.querySelector("#quantityStep3").textContent = `${data.b} × ${data.unit} = ${valueB}`;
+    els.challenge.innerHTML = challenge(`A : B = ${data.a} : ${data.b} · A = ${valueA}`, t(ml("Cari B dengan nilai satu bahagian.", "先求一份，再求 B。", "Find one part, then find B.")));
+    els.summary.textContent = `${valueA} ÷ ${data.a} = ${data.unit}; B = ${data.b} × ${data.unit} = ${valueB}`;
   }
 }
 
@@ -518,10 +615,15 @@ function randomizeCurrent() {
   if (id === "coordinatePlot") data.P = { x: rand(1,9), y: rand(1,9) };
   else if (["coordinateDistance","scaledCoordinates"].includes(id)) { data.A = { x: rand(0,4), y: rand(0,5) }; data.B = { x: rand(6,10), y: rand(5,10) }; }
   else if (id === "coordinateRoute") { data.A = { x: rand(0,3), y: rand(0,3) }; data.B = { x: rand(4,7), y: rand(2,6) }; data.C = { x: rand(7,10), y: rand(6,10) }; }
-  else if (["ratioObjects","ratioParts"].includes(id)) { data.a = rand(1,12); data.b = rand(1,12); }
+  else if (id === "ratioObjects") {
+    if (data.scalePreset === "objects") { data.a = rand(1,12); data.b = rand(1,12); }
+    else data.scalePreset = Math.random() < .5 ? "hundred" : "thousand";
+  }
+  else if (id === "ratioParts") { data.a = rand(1,12); data.b = rand(1,12); }
   else if (id === "ratioSimplify") { const factor=rand(2,6); data.a=rand(1,4)*factor; data.b=rand(2,5)*factor; }
   else if (id === "unitRate") { data.unitCost=rand(2,10); data.quantity=rand(2,8); }
   else if (id === "proportionUnknown") { data.a=rand(1,6); data.b=rand(2,8); data.multiplier=rand(2,6); }
+  else if (id === "ratioQuantity") { data.a=rand(1,5); data.b=rand(1,5); data.unit=rand(2,8); data.knownMode=Math.random()<.5?"knownA":"knownTotal"; }
   else if (id === "mapScale") { data.A={x:rand(0,3),y:rand(0,3)}; data.B={x:rand(6,10),y:rand(4,7)}; data.scale=rand(1,6); }
   playClick(720); renderActivity();
 }
@@ -534,6 +636,7 @@ function teacherSchema() {
   if (["ratioObjects","ratioParts","ratioSimplify"].includes(id)) return [{key:"a",label:t(I18N.first),value:data.a,min:1,max:24},{key:"b",label:t(I18N.second),value:data.b,min:1,max:24}];
   if (id === "unitRate") return [{key:"unitCost",label:t(ml("Harga seunit", "单价", "Unit price")),value:data.unitCost,min:1,max:20},{key:"quantity",label:t(I18N.items),value:data.quantity,min:1,max:10}];
   if (id === "proportionUnknown") return [{key:"a",label:"A",value:data.a,min:1,max:10},{key:"b",label:"B",value:data.b,min:1,max:10},{key:"multiplier",label:t(ml("Faktor", "倍数", "Multiplier")),value:data.multiplier,min:2,max:10}];
+  if (id === "ratioQuantity") return [{key:"a",label:t(ml("Bahagian A", "A 的份数", "A parts")),value:data.a,min:1,max:8},{key:"b",label:t(ml("Bahagian B", "B 的份数", "B parts")),value:data.b,min:1,max:8},{key:"unit",label:t(ml("Nilai setiap bahagian", "每份数量", "Value per part")),value:data.unit,min:1,max:12}];
   return [{key:"A.x",label:"A · x",value:data.A.x,min:0,max:10},{key:"A.y",label:"A · y",value:data.A.y,min:0,max:7},{key:"B.x",label:"B · x",value:data.B.x,min:0,max:10},{key:"B.y",label:"B · y",value:data.B.y,min:0,max:7},{key:"scale",label:t(I18N.scale),value:data.scale,min:1,max:10}];
 }
 function openTeacherDialog() {
