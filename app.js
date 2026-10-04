@@ -128,7 +128,7 @@ const defaults = () => ({
   ratioSimplify: { a: 12, b: 18, view: "partPart" },
   unitRate: { unitCost: 3, quantity: 4 },
   proportionUnknown: { a: 3, b: 5, multiplier: 4 },
-  ratioQuantity: { a: 2, b: 3, unit: 4, knownMode: "knownA" },
+  ratioQuantity: { a: 2, b: 3, unit: 4, knownMode: "knownA", showAnswer: false },
   mapScale: { A: { x: 2, y: 2 }, B: { x: 8, y: 5 }, scale: 2 }
 });
 
@@ -508,49 +508,53 @@ function updateProportionDom() {
 function renderRatioQuantity() {
   const data = state.values.ratioQuantity;
   els.stage.innerHTML = `<div class="quantity-ratio-lab"><div class="ratio-parts-heading"><span>${t(ml("Nisbah diberi", "所给的比", "Given ratio"))}</span><strong id="quantityRatioLabel"></strong><small>${t(ml("Setiap blok = satu bahagian sama besar", "每个色块 = 同样大的一份", "Each block = one equal part"))}</small></div><div class="ratio-parts-visual"><div class="quantity-group quantity-group-a"><div class="quantity-group-title"><span>A</span><b id="quantityAParts"></b></div><div id="quantityABlocks" class="quantity-blocks"></div></div><div class="quantity-group quantity-group-b"><div class="quantity-group-title"><span>B</span><b id="quantityBParts"></b></div><div id="quantityBBlocks" class="quantity-blocks"></div></div></div><div id="quantityGiven" class="quantity-given"></div><div class="quantity-solve-steps"><div><b>1</b><span id="quantityStep1Label"></span><strong id="quantityStep1"></strong></div><div><b>2</b><span>${t(ml("Cari satu bahagian", "求一份", "Find one part"))}</span><strong id="quantityStep2"></strong></div><div><b>3</b><span id="quantityStep3Label"></span><strong id="quantityStep3"></strong></div></div><div class="metric-row quantity-results"><div class="metric"><span>A</span><strong id="quantityAResult"></strong></div><div class="metric"><span>B</span><strong id="quantityBResult"></strong></div><div class="metric active"><span>${t(I18N.total)}</span><strong id="quantityTotalResult"></strong></div></div></div>`;
-  els.controls.innerHTML = `<div class="comparison-picker"><div class="comparison-question">${t(ml("Apakah maklumat yang diberi?", "题目给了什么？", "What information is given?"))}</div><div class="choice-row"><button class="choice-chip known-choice ${data.knownMode === "knownA" ? "active" : ""}" data-known-mode="knownA" type="button"><strong>${t(ml("Diberi kuantiti A", "已知 A 的数量", "A quantity is given"))}</strong><small>${t(ml("Cari B", "求 B", "Find B"))}</small></button><button class="choice-chip known-choice ${data.knownMode === "knownTotal" ? "active" : ""}" data-known-mode="knownTotal" type="button"><strong>${t(ml("Diberi jumlah", "已知总数", "Total is given"))}</strong><small>${t(ml("Cari A dan B", "求 A 和 B", "Find A and B"))}</small></button></div></div><div class="range-grid quantity-ranges">${rangeControl("ratioQtyA", t(ml("Bahagian A dalam nisbah", "比中 A 的份数", "A parts in the ratio")), data.a, 1, 8, "")}${rangeControl("ratioQtyB", t(ml("Bahagian B dalam nisbah", "比中 B 的份数", "B parts in the ratio")), data.b, 1, 8, "")}${rangeControl("ratioQtyUnit", t(ml("Nilai setiap bahagian", "每一份的数量", "Value of each part")), data.unit, 1, 12, "")}</div><div class="action-row"><button id="newExampleButton" class="primary-button" type="button">🎲 ${t(I18N.newExample)}</button></div>`;
-  document.querySelectorAll("[data-known-mode]").forEach((button) => button.addEventListener("click", () => { data.knownMode = button.dataset.knownMode; renderRatioQuantity(); }));
-  bindSimpleRange("ratioQtyA", "a", updateRatioQuantityDom);
-  bindSimpleRange("ratioQtyB", "b", updateRatioQuantityDom);
-  bindSimpleRange("ratioQtyUnit", "unit", updateRatioQuantityDom);
+  els.controls.innerHTML = `<div class="comparison-picker"><div class="comparison-question">${t(ml("Apakah maklumat yang diberi?", "题目给了什么？", "What information is given?"))}</div><div class="choice-row"><button class="choice-chip known-choice ${data.knownMode === "knownA" ? "active" : ""}" data-known-mode="knownA" type="button"><strong>${t(ml("Diberi kuantiti A", "已知 A 的数量", "A quantity is given"))}</strong><small>${t(ml("Cari B", "求 B", "Find B"))}</small></button><button class="choice-chip known-choice ${data.knownMode === "knownTotal" ? "active" : ""}" data-known-mode="knownTotal" type="button"><strong>${t(ml("Diberi jumlah", "已知总数", "Total is given"))}</strong><small>${t(ml("Cari A dan B", "求 A 和 B", "Find A and B"))}</small></button></div></div><div class="range-grid quantity-ranges">${rangeControl("ratioQtyA", t(ml("Bahagian A dalam nisbah", "比中 A 的份数", "A parts in the ratio")), data.a, 1, 8, "")}${rangeControl("ratioQtyB", t(ml("Bahagian B dalam nisbah", "比中 B 的份数", "B parts in the ratio")), data.b, 1, 8, "")}</div><div class="action-row"><button id="toggleQuantityAnswer" class="secondary-button" type="button"></button><button id="newExampleButton" class="primary-button" type="button">🎲 ${t(I18N.newExample)}</button></div>`;
+  document.querySelectorAll("[data-known-mode]").forEach((button) => button.addEventListener("click", () => { data.knownMode = button.dataset.knownMode; data.showAnswer = false; renderRatioQuantity(); }));
+  [["ratioQtyA","a"],["ratioQtyB","b"]].forEach(([id,key]) => document.querySelector(`#${id}`).addEventListener("input", (event) => { data[key] = +event.target.value; data.showAnswer = false; document.querySelector(`#${id}Out`).textContent = event.target.value; updateRatioQuantityDom(); }));
+  document.querySelector("#toggleQuantityAnswer").addEventListener("click", () => { data.showAnswer = !data.showAnswer; updateRatioQuantityDom(); });
   document.querySelector("#newExampleButton").addEventListener("click", randomizeCurrent);
   updateRatioQuantityDom();
 }
 
-function quantityBlocks(count, unit) {
-  return Array.from({ length: count }, () => `<i><span>${unit}</span></i>`).join("");
+function quantityBlocks(count, value) {
+  return Array.from({ length: count }, () => `<i class="${value === "?" ? "unknown-part" : ""}"><span>${value}</span></i>`).join("");
 }
 
 function updateRatioQuantityDom() {
   const data = state.values.ratioQuantity;
   const valueA = data.a * data.unit, valueB = data.b * data.unit, totalParts = data.a + data.b, total = valueA + valueB;
+  const revealed = data.showAnswer;
+  const hidden = "?";
   document.querySelector("#quantityRatioLabel").textContent = `A : B = ${data.a} : ${data.b}`;
   document.querySelector("#quantityAParts").textContent = `${data.a} ${t(ml("bahagian", "份", "parts"))}`;
   document.querySelector("#quantityBParts").textContent = `${data.b} ${t(ml("bahagian", "份", "parts"))}`;
-  document.querySelector("#quantityABlocks").innerHTML = quantityBlocks(data.a, data.unit);
-  document.querySelector("#quantityBBlocks").innerHTML = quantityBlocks(data.b, data.unit);
-  document.querySelector("#quantityAResult").textContent = valueA;
-  document.querySelector("#quantityBResult").textContent = valueB;
-  document.querySelector("#quantityTotalResult").textContent = total;
+  document.querySelector("#quantityABlocks").innerHTML = quantityBlocks(data.a, revealed ? data.unit : hidden);
+  document.querySelector("#quantityBBlocks").innerHTML = quantityBlocks(data.b, revealed ? data.unit : hidden);
+  document.querySelector("#quantityAResult").textContent = data.knownMode === "knownA" || revealed ? valueA : hidden;
+  document.querySelector("#quantityBResult").textContent = revealed ? valueB : hidden;
+  document.querySelector("#quantityTotalResult").textContent = data.knownMode === "knownTotal" || revealed ? total : hidden;
+  const answerButton = document.querySelector("#toggleQuantityAnswer");
+  answerButton.textContent = revealed ? `🙈 ${t(ml("Sembunyikan jawapan", "隐藏答案", "Hide answer"))}` : `💡 ${t(ml("Lihat jawapan", "查看答案", "Show answer"))}`;
+  answerButton.setAttribute("aria-pressed", String(revealed));
   const given = document.querySelector("#quantityGiven");
   if (data.knownMode === "knownTotal") {
     given.innerHTML = `<span>${t(ml("Diberi", "已知", "Given"))}</span><strong>${t(I18N.total)} = ${total}</strong><small>${t(ml("Cari kuantiti A dan B", "求 A 和 B 的数量", "Find quantities A and B"))}</small>`;
     document.querySelector("#quantityStep1Label").textContent = t(ml("Kira jumlah bahagian", "先算总份数", "Count all parts"));
     document.querySelector("#quantityStep1").textContent = `${data.a} + ${data.b} = ${totalParts} ${t(ml("bahagian", "份", "parts"))}`;
-    document.querySelector("#quantityStep2").textContent = `${total} ÷ ${totalParts} = ${data.unit}`;
+    document.querySelector("#quantityStep2").textContent = `${total} ÷ ${totalParts} = ${revealed ? data.unit : hidden}`;
     document.querySelector("#quantityStep3Label").textContent = t(ml("Cari A dan B", "求 A 和 B", "Find A and B"));
-    document.querySelector("#quantityStep3").textContent = `A: ${data.a} × ${data.unit} = ${valueA} · B: ${data.b} × ${data.unit} = ${valueB}`;
+    document.querySelector("#quantityStep3").textContent = revealed ? `A: ${data.a} × ${data.unit} = ${valueA} · B: ${data.b} × ${data.unit} = ${valueB}` : `A = ${hidden} · B = ${hidden}`;
     els.challenge.innerHTML = challenge(`A : B = ${data.a} : ${data.b} · ${t(I18N.total)} = ${total}`, t(ml("Cari A dan B dengan nilai satu bahagian.", "先求一份，再求 A 和 B。", "Find one part, then find A and B.")));
-    els.summary.textContent = `${total} ÷ (${data.a} + ${data.b}) = ${data.unit}; A = ${valueA}, B = ${valueB}`;
+    els.summary.textContent = revealed ? `${total} ÷ (${data.a} + ${data.b}) = ${data.unit}; A = ${valueA}, B = ${valueB}` : t(ml("Cuba cari nilai satu bahagian dahulu.", "先自己求出一份是多少。", "Try to find the value of one part first."));
   } else {
     given.innerHTML = `<span>${t(ml("Diberi", "已知", "Given"))}</span><strong>A = ${valueA}</strong><small>${t(ml("Cari kuantiti B", "求 B 的数量", "Find quantity B"))}</small>`;
     document.querySelector("#quantityStep1Label").textContent = t(ml("Lihat bahagian A", "先看 A 有几份", "Read A's parts"));
     document.querySelector("#quantityStep1").textContent = `A = ${data.a} ${t(ml("bahagian", "份", "parts"))}`;
-    document.querySelector("#quantityStep2").textContent = `${valueA} ÷ ${data.a} = ${data.unit}`;
+    document.querySelector("#quantityStep2").textContent = `${valueA} ÷ ${data.a} = ${revealed ? data.unit : hidden}`;
     document.querySelector("#quantityStep3Label").textContent = t(ml("Cari B", "求 B", "Find B"));
-    document.querySelector("#quantityStep3").textContent = `${data.b} × ${data.unit} = ${valueB}`;
+    document.querySelector("#quantityStep3").textContent = revealed ? `${data.b} × ${data.unit} = ${valueB}` : `${data.b} × ${hidden} = ${hidden}`;
     els.challenge.innerHTML = challenge(`A : B = ${data.a} : ${data.b} · A = ${valueA}`, t(ml("Cari B dengan nilai satu bahagian.", "先求一份，再求 B。", "Find one part, then find B.")));
-    els.summary.textContent = `${valueA} ÷ ${data.a} = ${data.unit}; B = ${data.b} × ${data.unit} = ${valueB}`;
+    els.summary.textContent = revealed ? `${valueA} ÷ ${data.a} = ${data.unit}; B = ${data.b} × ${data.unit} = ${valueB}` : t(ml("Cari satu bahagian, kemudian cari B.", "先求一份，再求 B。", "Find one part, then find B."));
   }
 }
 
@@ -623,7 +627,7 @@ function randomizeCurrent() {
   else if (id === "ratioSimplify") { const factor=rand(2,6); data.a=rand(1,4)*factor; data.b=rand(2,5)*factor; }
   else if (id === "unitRate") { data.unitCost=rand(2,10); data.quantity=rand(2,8); }
   else if (id === "proportionUnknown") { data.a=rand(1,6); data.b=rand(2,8); data.multiplier=rand(2,6); }
-  else if (id === "ratioQuantity") { data.a=rand(1,5); data.b=rand(1,5); data.unit=rand(2,8); data.knownMode=Math.random()<.5?"knownA":"knownTotal"; }
+  else if (id === "ratioQuantity") { data.a=rand(1,5); data.b=rand(1,5); data.unit=rand(2,8); data.knownMode=Math.random()<.5?"knownA":"knownTotal"; data.showAnswer=false; }
   else if (id === "mapScale") { data.A={x:rand(0,3),y:rand(0,3)}; data.B={x:rand(6,10),y:rand(4,7)}; data.scale=rand(1,6); }
   playClick(720); renderActivity();
 }
@@ -648,6 +652,7 @@ function applyTeacherSettings() {
   const schema=teacherSchema(), data=state.values[state.activity]; let valid=true;
   document.querySelectorAll("[data-teacher-key]").forEach((input)=>{ const rule=schema.find((item)=>item.key===input.dataset.teacherKey); const value=+input.value; if (!Number.isInteger(value)||value<rule.min||value>rule.max) { valid=false; return; } const path=rule.key.split("."); if(path.length===2)data[path[0]][path[1]]=value; else data[path[0]]=value; });
   if(!valid){els.error.textContent=t(ml("Masukkan nombor bulat dalam julat yang ditunjukkan.","请输入所示范围内的整数。","Enter whole numbers within the shown range."));return;}
+  if (state.activity === "ratioQuantity") data.showAnswer = false;
   els.dialog.close(); playClick(680); renderActivity();
 }
 
