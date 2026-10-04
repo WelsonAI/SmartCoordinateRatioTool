@@ -20,4 +20,8 @@ await capture(1440,1000,4,"proportion","unitRate","review-unit-rate-desktop.png"
 await capture(1440,1000,5,"proportion","proportionUnknown","review-proportion-desktop.png");
 await capture(1440,1000,6,"proportion","mapScale","review-scale-desktop.png");
 await capture(390,844,4,"coordinate","coordinatePlot","review-coordinate-mobile.png");
+await capture(390,844,5,"coordinate","coordinateRoute","review-route-mobile.png");
+await capture(390,844,5,"ratio","ratioParts","review-ratio-parts-mobile.png");
+await capture(390,844,5,"proportion","proportionUnknown","review-proportion-mobile.png");
+await capture(390,844,6,"proportion","mapScale","review-scale-mobile.png");
 socket.close();

@@ -47,6 +47,26 @@ for (const [grade,modes] of Object.entries(expected)) for (const [mode,activitie
 }
 if(new Set(covered).size!==10)throw new Error("Expected 10 unique activities.");
 
+const teaching = await evaluate(`(() => {
+  const choose=(grade,mode,activity)=>{const g=document.querySelector('#gradeSelect');g.value=String(grade);g.dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('[data-mode='+mode+']').click();const a=document.querySelector('#activitySelect');a.value=activity;a.dispatchEvent(new Event('change',{bubbles:true}));};
+  choose(5,'coordinate','coordinateRoute');
+  const route={legs:document.querySelectorAll('.route-card').length,paths:document.querySelectorAll('.route-leg').length,labels:document.querySelectorAll('.route-leg-label').length,works:[document.querySelector('#readLegABWork')?.textContent,document.querySelector('#readLegBCWork')?.textContent,document.querySelector('#readRouteWork')?.textContent]};
+  choose(5,'ratio','ratioParts');
+  const parts={question:!!document.querySelector('.comparison-question'),choices:document.querySelectorAll('.comparison-choice').length,explain:document.querySelectorAll('#comparisonExplain .compare-chip').length};
+  choose(6,'ratio','ratioSimplify');
+  const simplify={equations:document.querySelectorAll('.simplify-equation').length,results:document.querySelectorAll('.simplify-result').length,repeatedGroups:document.querySelectorAll('.ratio-group').length};
+  choose(5,'proportion','proportionUnknown');
+  const unknown={machine:!!document.querySelector('.proportion-machine'),rows:document.querySelectorAll('.machine-row').length,steps:document.querySelectorAll('.solve-steps>div').length,factor:document.querySelector('#solveFactor')?.textContent,answer:document.querySelector('#solveUnknown')?.textContent};
+  choose(6,'proportion','mapScale');
+  const map={captions:document.querySelectorAll('.map-place-caption').length,counts:document.querySelectorAll('.map-count').length,steps:document.querySelectorAll('.map-learning-steps>div').length,formula:[document.querySelector('#mapStep1')?.textContent,document.querySelector('#mapStep2')?.textContent,document.querySelector('#mapStep3')?.textContent]};
+  return {route,parts,simplify,unknown,map};
+})()`);
+if(teaching.route.legs!==3||teaching.route.paths!==2||teaching.route.labels!==0||teaching.route.works.some(v=>!v))throw new Error("Route explanation failed: "+JSON.stringify(teaching.route));
+if(!teaching.parts.question||teaching.parts.choices!==2||teaching.parts.explain!==2)throw new Error("Ratio comparison explanation failed: "+JSON.stringify(teaching.parts));
+if(teaching.simplify.equations!==2||teaching.simplify.results!==1||teaching.simplify.repeatedGroups!==0)throw new Error("Simplest-ratio explanation failed: "+JSON.stringify(teaching.simplify));
+if(!teaching.unknown.machine||teaching.unknown.rows!==2||teaching.unknown.steps!==2||!teaching.unknown.factor||!teaching.unknown.answer)throw new Error("Unknown proportion explanation failed: "+JSON.stringify(teaching.unknown));
+if(teaching.map.captions!==2||teaching.map.counts!==2||teaching.map.steps!==3||teaching.map.formula.some(v=>!v))throw new Error("Map-scale explanation failed: "+JSON.stringify(teaching.map));
+
 const interaction = await evaluate(`(() => {
   const choose=(grade,mode,activity)=>{const g=document.querySelector('#gradeSelect');g.value=String(grade);g.dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('[data-mode='+mode+']').click();const a=document.querySelector('#activitySelect');a.value=activity;a.dispatchEvent(new Event('change',{bubbles:true}));};
   choose(5,'coordinate','coordinateDistance');

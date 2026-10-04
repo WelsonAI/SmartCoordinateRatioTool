@@ -59,8 +59,8 @@ const ACTIVITIES = {
   coordinateRoute: {
     label: ml("Laluan koordinat", "坐标路线", "Coordinate route"),
     scope: ml("Tahun 5 · Laluan antara tiga lokasi", "五年级 · 三个地点之间的路线", "Year 5 · Route between three locations"),
-    tip: ml("Seret A, B dan C. Laluan ungu mengikut grid, bukan garis serong.", "拖动 A、B 和 C。紫色路线沿着网格走，不走斜线。", "Drag A, B and C. The purple route follows the grid, not a diagonal."),
-    guides: [ml("Susun tiga lokasi.", "安排三个地点。", "Position three places."), ml("Ikut laluan A → B → C.", "沿 A → B → C 行走。", "Follow A → B → C."), ml("Tambah semua jarak grid.", "把所有网格距离相加。", "Add all grid distances.")]
+    tip: ml("Seret A, B dan C. Kad di kanan memisahkan perjalanan A→B dan B→C.", "拖动 A、B 和 C。右边会把 A→B 与 B→C 两段路线分开说明。", "Drag A, B and C. The cards separate the A→B and B→C legs."),
+    guides: [ml("Lihat koordinat setiap lokasi.", "先看每个地点的坐标。", "Read each location's coordinates."), ml("Kira jarak A→B, kemudian B→C.", "先算 A→B，再算 B→C。", "Count A→B, then B→C."), ml("Tambah dua jarak kecil untuk jarak penuh.", "把两段小计相加，得到全程。", "Add both subtotals for the full route.")]
   },
   scaledCoordinates: {
     label: ml("Koordinat berskala", "有比例尺的坐标图", "Scaled coordinate map"),
@@ -77,14 +77,14 @@ const ACTIVITIES = {
   ratioParts: {
     label: ml("Bahagian kepada bahagian / keseluruhan", "部分比部分／整体", "Part-to-part / whole"),
     scope: ml("Tahun 5 · Bezakan dua jenis perbandingan", "五年级 · 分辨两种比较方式", "Year 5 · Distinguish two comparisons"),
-    tip: ml("A : B membandingkan dua bahagian. A : jumlah membandingkan satu bahagian dengan keseluruhan.", "A : B 比较两个部分；A : 总数比较一个部分与整体。", "A : B compares two parts; A : total compares one part with the whole."),
-    guides: [ml("Ubah bilangan A dan B.", "改变 A 与 B 的数量。", "Change A and B."), ml("Pilih jenis perbandingan.", "选择比较类型。", "Choose a comparison."), ml("Lihat jumlah apabila perlu.", "需要时观察总数。", "Use the total when needed.")]
+    tip: ml("Pilih ayat penuh: bandingkan A dengan B, atau bandingkan A dengan semua objek.", "请选择完整句子：比较 A 组和 B 组，或比较 A 组和全部物品。", "Choose a full sentence: compare A with B, or A with all objects."),
+    guides: [ml("Kira objek hijau A dan ungu B.", "数绿色 A 与紫色 B。", "Count green A and purple B."), ml("Pilih perkara yang hendak dibandingkan.", "选择到底要比较什么。", "Choose what to compare."), ml("Ikut kotak berwarna untuk menulis nisbah.", "跟着彩色说明框写出比。", "Follow the coloured boxes to write the ratio.")]
   },
   ratioSimplify: {
     label: ml("Nisbah bentuk termudah", "最简比实验室", "Simplest ratio lab"),
     scope: ml("Tahun 6 · Nisbah setara dan bentuk termudah", "六年级 · 相等的比与最简比", "Year 6 · Equivalent ratios and simplest form"),
-    tip: ml("Setiap bingkai ialah satu kumpulan setara. Bahagi kedua-dua nombor dengan faktor yang sama.", "每个框是一组相等组合。两个数必须除以同一个因数。", "Each frame is one equal group. Divide both numbers by the same factor."),
-    guides: [ml("Pilih dua kuantiti.", "选择两个数量。", "Choose two quantities."), ml("Cari faktor sepunya terbesar.", "找最大公因数。", "Find the greatest common factor."), ml("Bahagi kedua-duanya serentak.", "两个数同时相除。", "Divide both together.")]
+    tip: ml("Bahagi A dan B dengan nombor yang sama. Papan bawah menunjukkan satu kumpulan yang tinggal.", "A 与 B 必须同时除以同一个数。下面只显示最后保留的一组。", "Divide A and B by the same number. The lower board shows the one group that remains."),
+    guides: [ml("Lihat jumlah asal A dan B.", "先看 A 与 B 的原来数量。", "Read the original A and B totals."), ml("Cari nombor pembahagi yang sama.", "找出两边相同的除数。", "Find the common divisor."), ml("Lihat satu kumpulan yang tinggal.", "观察最后保留的一组。", "See the one remaining group.")]
   },
   unitRate: {
     label: ml("Kadaran seunit", "单一量比例", "Unit-rate proportion"),
@@ -95,14 +95,14 @@ const ACTIVITIES = {
   proportionUnknown: {
     label: ml("Kuantiti tidak diketahui", "未知数量比例板", "Unknown quantity board"),
     scope: ml("Tahun 5 · Cari nilai melalui kadaran", "五年级 · 运用比例求未知数", "Year 5 · Find an unknown through proportion"),
-    tip: ml("Kedua-dua bar dibesarkan dengan faktor yang sama.", "两条数线都必须乘以相同的倍数。", "Both number lines are enlarged by the same factor."),
-    guides: [ml("Baca pasangan pertama.", "读取第一组对应数。", "Read the first pair."), ml("Cari faktor pendarab.", "找出倍数。", "Find the multiplier."), ml("Gunakan faktor yang sama pada pasangan kedua.", "在第二组使用相同倍数。", "Use the same factor on the second pair.")]
+    tip: ml("Ikut anak panah: cari faktor pada baris atas, kemudian guna faktor yang sama pada baris bawah.", "跟着箭头：先从上排找倍数，再把同一个倍数用在下排。", "Follow the arrows: find the multiplier on the top row, then use it on the bottom row."),
+    guides: [ml("Bahagi nombor kanan atas dengan kiri atas.", "用右上数除以左上数。", "Divide the upper-right by the upper-left."), ml("Itulah faktor pendarab.", "得到共同倍数。", "That is the multiplier."), ml("Darab nombor kiri bawah dengan faktor itu.", "下排左边数乘以这个倍数。", "Multiply the lower-left by that factor.")]
   },
   mapScale: {
     label: ml("Makmal skala peta", "地图比例尺实验室", "Map scale lab"),
     scope: ml("Tahun 6 · Skala peta dan jarak sebenar", "六年级 · 地图比例尺与实际距离", "Year 6 · Map scale and actual distance"),
-    tip: ml("Seret kedua-dua pin. Satu petak peta ialah 1 cm; skala menukarkannya kepada km sebenar.", "拖动两个图钉。地图一格是 1 cm，比例尺把它换成实际 km。", "Drag both pins. One map square is 1 cm; the scale converts it to real kilometres."),
-    guides: [ml("Seret pin A dan B.", "拖动图钉 A 与 B。", "Drag pins A and B."), ml("Kira jarak peta sepanjang grid.", "沿网格计算图上距离。", "Count map distance along the grid."), ml("Darab dengan nilai skala.", "乘以比例尺数值。", "Multiply by the scale value.")]
+    tip: ml("A ialah sekolah dan B ialah rumah. Kira petak berwarna dahulu; setiap petak peta ialah 1 cm.", "A 是学校，B 是住家。先数彩色路线格数；地图每一格是 1 cm。", "A is the school and B is home. Count the coloured route first; every map square is 1 cm."),
+    guides: [ml("Seret sekolah A dan rumah B.", "拖动学校 A 与住家 B。", "Drag school A and home B."), ml("Tambah petak mengufuk dan mencancang.", "横向格数加直向格数。", "Add horizontal and vertical squares."), ml("Ikut tiga kad langkah untuk menukar kepada km.", "跟着三个步骤卡换算成 km。", "Follow the three step cards to convert to km.")]
   }
 };
 
@@ -232,9 +232,13 @@ function renderCoordinate() {
   const id = state.activity;
   const data = state.values[id];
   const names = id === "coordinatePlot" ? ["P"] : id === "coordinateRoute" ? ["A", "B", "C"] : ["A", "B"];
-  const extra = id === "coordinatePlot" ? "" : `<path id="routePath" class="${id === "coordinateRoute" ? "route-line" : "route-guide"}" d=""/><line id="distanceX" class="distance-x"/><line id="distanceY" class="distance-y"/>`;
+  const extra = id === "coordinatePlot" ? "" : id === "coordinateRoute"
+    ? `<path id="routeAB" class="route-leg route-leg-ab" d=""/><path id="routeBC" class="route-leg route-leg-bc" d=""/>`
+    : `<path id="routePath" class="route-guide" d=""/><line id="distanceX" class="distance-x"/><line id="distanceY" class="distance-y"/>`;
   const readouts = id === "coordinatePlot"
     ? `<div class="readout-card x"><span>x</span><strong id="readX">${data.P.x}</strong></div><div class="readout-card y"><span>y</span><strong id="readY">${data.P.y}</strong></div><div class="readout-card"><span>P</span><strong id="readPair">(${data.P.x}, ${data.P.y})</strong></div>`
+    : id === "coordinateRoute"
+      ? `<div class="readout-card route-card route-card-ab"><span>${t(ml("Bahagian 1", "第1段", "Leg 1"))}</span><b>A → B</b><strong id="readLegAB">0</strong><small id="readLegABWork"></small></div><div class="readout-card route-card route-card-bc"><span>${t(ml("Bahagian 2", "第2段", "Leg 2"))}</span><b>B → C</b><strong id="readLegBC">0</strong><small id="readLegBCWork"></small></div><div class="readout-card route-card total-card"><span>${t(ml("Seluruh perjalanan", "全程", "Full route"))}</span><strong id="readTotal">0</strong><small id="readRouteWork"></small></div>`
     : `<div class="readout-card x"><span>${t(I18N.horizontal)}</span><strong id="readDx">0</strong></div><div class="readout-card y"><span>${t(I18N.vertical)}</span><strong id="readDy">0</strong></div><div class="readout-card"><span>${id === "coordinateRoute" ? t(I18N.total) : id === "scaledCoordinates" ? t(I18N.actualDistance) : t(I18N.total)}</span><strong id="readTotal">0</strong></div>`;
   els.stage.innerHTML = `<div class="coordinate-wrap"><svg id="coordinateSvg" class="coordinate-board" viewBox="0 0 430 380" role="img" aria-label="Coordinate grid">${gridLines()}${extra}${names.map((name) => pointSvg(name, data[name])).join("")}</svg><div class="coordinate-readouts">${readouts}</div></div>`;
   const scaleControl = id === "scaledCoordinates" ? rangeControl("coordScale", t(I18N.scale), data.scale, 1, 10, state.lang === "zh" ? "km/格" : "km/grid") : "";
@@ -275,26 +279,35 @@ function updateCoordinateDom() {
     return;
   }
   const points = names.map((name) => data[name]);
-  document.querySelector("#routePath").setAttribute("d", coordinatePath(points));
   const a = points[0], b = points[1];
   const dx = Math.abs(b.x - a.x), dy = Math.abs(b.y - a.y);
+  if (id === "coordinateRoute") {
+    const c = data.C;
+    const ab = dx + dy;
+    const bcx = Math.abs(c.x - b.x), bcy = Math.abs(c.y - b.y), bc = bcx + bcy;
+    document.querySelector("#routeAB").setAttribute("d", coordinatePath([a, b]));
+    document.querySelector("#routeBC").setAttribute("d", coordinatePath([b, c]));
+    document.querySelector("#readLegAB").textContent = `${ab} ${t(ml("unit", "单位", "units"))}`;
+    document.querySelector("#readLegABWork").textContent = `${dx} + ${dy} = ${ab}`;
+    document.querySelector("#readLegBC").textContent = `${bc} ${t(ml("unit", "单位", "units"))}`;
+    document.querySelector("#readLegBCWork").textContent = `${bcx} + ${bcy} = ${bc}`;
+    document.querySelector("#readTotal").textContent = `${ab + bc} ${t(ml("unit", "单位", "units"))}`;
+    document.querySelector("#readRouteWork").textContent = `${ab} + ${bc} = ${ab + bc}`;
+    els.challenge.innerHTML = challenge(t(ml(`A → B = ${ab}, B → C = ${bc}`, `A → B = ${ab}，B → C = ${bc}`, `A → B = ${ab}, B → C = ${bc}`)), t(ml(`Jumlah perjalanan: ${ab} + ${bc} = ${ab + bc} unit`, `全程：${ab} + ${bc} = ${ab + bc} 个单位`, `Full route: ${ab} + ${bc} = ${ab + bc} units`)));
+    els.summary.textContent = t(ml(`Bahagian 1 (${ab}) + Bahagian 2 (${bc}) = ${ab + bc} unit`, `第1段（${ab}）+ 第2段（${bc}）= ${ab + bc} 个单位`, `Leg 1 (${ab}) + Leg 2 (${bc}) = ${ab + bc} units`));
+    return;
+  }
+  document.querySelector("#routePath").setAttribute("d", coordinatePath(points));
   const xLine = document.querySelector("#distanceX"), yLine = document.querySelector("#distanceY");
   xLine.setAttribute("x1", sx(a.x)); xLine.setAttribute("y1", sy(a.y)); xLine.setAttribute("x2", sx(b.x)); xLine.setAttribute("y2", sy(a.y));
   yLine.setAttribute("x1", sx(b.x)); yLine.setAttribute("y1", sy(a.y)); yLine.setAttribute("x2", sx(b.x)); yLine.setAttribute("y2", sy(b.y));
   let horizontal = dx, vertical = dy;
-  if (id === "coordinateRoute") {
-    horizontal += Math.abs(data.C.x - b.x);
-    vertical += Math.abs(data.C.y - b.y);
-  }
   const total = horizontal + vertical;
   const scale = id === "scaledCoordinates" ? data.scale : 1;
   document.querySelector("#readDx").textContent = id === "scaledCoordinates" ? `${horizontal * scale} km` : `${horizontal} ${t(ml("unit", "单位", "units"))}`;
   document.querySelector("#readDy").textContent = id === "scaledCoordinates" ? `${vertical * scale} km` : `${vertical} ${t(ml("unit", "单位", "units"))}`;
   document.querySelector("#readTotal").textContent = id === "scaledCoordinates" ? `${total * scale} km` : `${total} ${t(ml("unit", "单位", "units"))}`;
-  if (id === "coordinateRoute") {
-    els.challenge.innerHTML = challenge(t(ml(`Laluan A → B → C = ${total} unit`, `路线 A → B → C = ${total} 个单位`, `Route A → B → C = ${total} units`)), t(ml("Setiap segmen bergerak sepanjang grid.", "每一段都沿着网格移动。", "Every segment moves along the grid.")));
-    els.summary.textContent = t(ml(`Jumlah laluan grid = ${total} unit`, `网格路线总长 = ${total} 个单位`, `Total grid route = ${total} units`));
-  } else if (id === "scaledCoordinates") {
+  if (id === "scaledCoordinates") {
     els.challenge.innerHTML = challenge(t(ml(`1 petak = ${scale} km · jarak sebenar ${total * scale} km`, `1 格 = ${scale} km · 实际距离 ${total * scale} km`, `1 square = ${scale} km · actual distance ${total * scale} km`)), t(ml(`${total} petak × ${scale} km`, `${total} 格 × ${scale} km`, `${total} squares × ${scale} km`)));
     els.summary.textContent = `${total} × ${scale} km = ${total * scale} km`;
   } else {
@@ -338,8 +351,9 @@ function renderRatio() {
   const groupA = tokenGroup("a", "A", "#20a889", data.a);
   const groupB = tokenGroup("b", "B", "#8062c6", data.b);
   const groups = id === "ratioSimplify" ? `<div id="ratioGroups" class="ratio-groups"></div>` : "";
-  els.stage.innerHTML = `<div class="stage-stack"><div class="ratio-board">${groupA}<div class="ratio-symbol">:</div>${groupB}</div><div id="ratioBar" class="ratio-bar"><div class="bar-a"></div><div class="bar-b"></div></div>${groups}</div>`;
-  const compare = id === "ratioParts" ? `<div class="choice-row"><button class="choice-chip ${data.view === "partPart" ? "active" : ""}" data-view="partPart" type="button">A : B</button><button class="choice-chip ${data.view === "partWhole" ? "active" : ""}" data-view="partWhole" type="button">A : ${t(I18N.total)}</button></div>` : "";
+  const comparisonExplain = id === "ratioParts" ? `<div id="comparisonExplain" class="comparison-explain"></div>` : "";
+  els.stage.innerHTML = `<div class="stage-stack"><div class="ratio-board">${groupA}<div class="ratio-symbol">:</div>${groupB}</div><div id="ratioBar" class="ratio-bar"><div class="bar-a"></div><div class="bar-b"></div></div>${comparisonExplain}${groups}</div>`;
+  const compare = id === "ratioParts" ? `<div class="comparison-picker"><div class="comparison-question">${t(ml("Apakah yang hendak dibandingkan?", "你要比较什么？", "What do you want to compare?"))}</div><div class="choice-row"><button class="choice-chip comparison-choice ${data.view === "partPart" ? "active" : ""}" data-view="partPart" type="button"><span>🟢 ↔ 🟣</span><strong>${t(ml("Bandingkan A dengan B", "比较 A 组和 B 组", "Compare A with B"))}</strong><small>A : B</small></button><button class="choice-chip comparison-choice ${data.view === "partWhole" ? "active" : ""}" data-view="partWhole" type="button"><span>🟢 ↔ 🟢🟣</span><strong>${t(ml("Bandingkan A dengan semua", "比较 A 组和全部", "Compare A with all"))}</strong><small>A : ${t(I18N.total)}</small></button></div></div>` : "";
   els.controls.innerHTML = `${compare}<div class="range-grid">${rangeControl("ratioA", t(I18N.first), data.a, 1, 24, "")}${rangeControl("ratioB", t(I18N.second), data.b, 1, 24, "")}</div><div class="action-row"><button id="newExampleButton" class="primary-button" type="button">🎲 ${t(I18N.newExample)}</button></div>`;
   document.querySelectorAll("[data-token-side]").forEach((token) => token.addEventListener("click", () => { data[token.dataset.tokenSide] = +token.dataset.value; syncRatioControls(); updateRatioDom(); }));
   document.querySelector("#ratioA").addEventListener("input", (e) => { data.a = +e.target.value; syncRatioControls(); updateRatioDom(); });
@@ -376,12 +390,15 @@ function updateRatioDom() {
   const divisor = gcd(data.a, data.b), sa = data.a / divisor, sb = data.b / divisor;
   if (id === "ratioSimplify") {
     const groups = document.querySelector("#ratioGroups");
-    groups.innerHTML = Array.from({ length: divisor }, () => `<div class="ratio-group">${Array.from({ length: sa }, () => '<span class="mini-token"></span>').join("")}${Array.from({ length: sb }, () => '<span class="mini-token b"></span>').join("")}</div>`).join("");
+    groups.innerHTML = `<div class="simplify-heading">${t(ml("Bahagi kedua-dua kumpulan dengan nombor yang sama", "两组同时除以同一个数", "Divide both groups by the same number"))}: <b>${divisor}</b></div><div class="simplify-equation simplify-a"><span>A</span><strong>${data.a} ÷ ${divisor} = ${sa}</strong><div class="kept-tokens">${Array.from({ length: sa }, () => '<i class="mini-token"></i>').join("")}</div></div><div class="simplify-colon">:</div><div class="simplify-equation simplify-b"><span>B</span><strong>${data.b} ÷ ${divisor} = ${sb}</strong><div class="kept-tokens">${Array.from({ length: sb }, () => '<i class="mini-token b"></i>').join("")}</div></div><div class="simplify-result">${t(ml("Tinggal satu kumpulan", "最后保留一组", "One group remains"))} → <b>${sa} : ${sb}</b></div>`;
     els.challenge.innerHTML = challenge(`${data.a} : ${data.b} = ${sa} : ${sb}`, t(ml(`Bahagi kedua-dua nombor dengan ${divisor}.`, `两个数同时除以 ${divisor}。`, `Divide both numbers by ${divisor}.`)));
     els.summary.textContent = t(ml(`FSTB = ${divisor} → nisbah termudah ${sa} : ${sb}`, `最大公因数 = ${divisor} → 最简比 ${sa} : ${sb}`, `GCF = ${divisor} → simplest ratio ${sa} : ${sb}`));
   } else if (id === "ratioParts") {
     const shownRight = data.view === "partWhole" ? data.a + data.b : data.b;
     const label = data.view === "partWhole" ? `A : ${t(I18N.total)}` : "A : B";
+    document.querySelector("#comparisonExplain").innerHTML = data.view === "partWhole"
+      ? `<div class="compare-chip chip-a"><span>${t(ml("Bahagian A", "A 组", "Part A"))}</span><b>${data.a}</b></div><span class="compare-vs">:</span><div class="compare-chip chip-whole"><span>${t(ml("Semua objek", "全部物品", "All objects"))}</span><b>${data.a} + ${data.b} = ${data.a + data.b}</b></div><div class="compare-answer">${data.a} : ${data.a + data.b}</div>`
+      : `<div class="compare-chip chip-a"><span>${t(ml("Kumpulan A", "A 组", "Group A"))}</span><b>${data.a}</b></div><span class="compare-vs">:</span><div class="compare-chip chip-b"><span>${t(ml("Kumpulan B", "B 组", "Group B"))}</span><b>${data.b}</b></div><div class="compare-answer">${data.a} : ${data.b}</div>`;
     els.challenge.innerHTML = challenge(`${label} = ${data.a} : ${shownRight}`, data.view === "partWhole" ? t(ml(`${data.a} bahagian A daripada ${data.a + data.b} objek.`, `${data.a} 个 A，占全部 ${data.a + data.b} 个物品。`, `${data.a} A items out of ${data.a + data.b} objects.`)) : t(ml("Bandingkan dua bahagian sahaja.", "只比较两个部分。", "Compare the two parts only.")));
     els.summary.textContent = data.view === "partWhole" ? `${data.a} : (${data.a} + ${data.b}) = ${data.a} : ${data.a + data.b}` : `A : B = ${data.a} : ${data.b}`;
   } else {
@@ -398,7 +415,7 @@ function renderProportion() {
     bindSimpleRange("unitCost", "unitCost", updateProportionDom);
     bindSimpleRange("quantity", "quantity", updateProportionDom);
   } else {
-    els.stage.innerHTML = `<div class="proportion-board"><div class="double-line"><div class="number-line"><div class="number-line-label">A</div><div id="firstLine" class="number-track"></div></div><div class="number-line"><div class="number-line-label">B</div><div id="secondLine" class="number-track"></div></div></div><div class="metric-row"><div class="metric"><span>${t(ml("Pasangan pertama", "第一组", "First pair"))}</span><strong id="basePair"></strong></div><div class="metric"><span>${t(ml("Faktor", "倍数", "Multiplier"))}</span><strong id="factorValue"></strong></div><div class="metric active"><span>${t(ml("Nilai tidak diketahui", "未知数", "Unknown value"))}</span><strong id="unknownValue"></strong></div></div></div>`;
+    els.stage.innerHTML = `<div class="proportion-board"><div class="proportion-machine"><div class="machine-head"><span>${t(ml("Nombor asal", "原来的数", "Starting number"))}</span><span>${t(ml("Guna faktor sama", "使用相同倍数", "Use the same multiplier"))}</span><span>${t(ml("Nombor baharu", "新的数", "New number"))}</span></div><div class="machine-row row-a"><span class="machine-label">A</span><strong id="machineAStart"></strong><span class="machine-arrow" id="machineArrowA"></span><strong id="machineAEnd"></strong></div><div class="machine-row row-b"><span class="machine-label">B</span><strong id="machineBStart"></strong><span class="machine-arrow" id="machineArrowB"></span><strong id="machineBEnd" class="answer-box"></strong></div></div><div class="solve-steps"><div><b>1</b><span>${t(ml("Cari faktor", "先找倍数", "Find the multiplier"))}</span><strong id="solveFactor"></strong></div><div><b>2</b><span>${t(ml("Cari nombor yang hilang", "再求未知数", "Find the missing number"))}</span><strong id="solveUnknown"></strong></div></div><div class="metric-row"><div class="metric"><span>${t(ml("Nisbah asal", "原来的比", "Original ratio"))}</span><strong id="basePair"></strong></div><div class="metric"><span>${t(ml("Faktor sama", "相同倍数", "Same multiplier"))}</span><strong id="factorValue"></strong></div><div class="metric active"><span>${t(ml("Jawapan", "答案", "Answer"))}</span><strong id="unknownValue"></strong></div></div></div>`;
     els.controls.innerHTML = `<div class="range-grid">${rangeControl("propA", "A", data.a, 1, 10, "")}${rangeControl("propB", "B", data.b, 1, 10, "")}${rangeControl("multiplier", t(ml("Faktor", "倍数", "Multiplier")), data.multiplier, 2, 10, "×")}</div><div class="action-row"><button id="newExampleButton" class="primary-button" type="button">🎲 ${t(I18N.newExample)}</button></div>`;
     bindSimpleRange("propA", "a", updateProportionDom);
     bindSimpleRange("propB", "b", updateProportionDom);
@@ -424,21 +441,27 @@ function updateProportionDom() {
     els.summary.textContent = t(ml(`Harga seunit kekal RM ${data.unitCost}.`, `每件单价保持 RM ${data.unitCost}。`, `The unit price stays RM ${data.unitCost}.`));
   } else {
     const x = data.a * data.multiplier, y = data.b * data.multiplier;
-    document.querySelector("#firstLine").innerHTML = tickMarkup([0, data.a, x], x);
-    document.querySelector("#secondLine").innerHTML = tickMarkup([0, data.b, `<span class="unknown-value">? = ${y}</span>`], y);
+    document.querySelector("#machineAStart").textContent = data.a;
+    document.querySelector("#machineAEnd").textContent = x;
+    document.querySelector("#machineBStart").textContent = data.b;
+    document.querySelector("#machineBEnd").textContent = y;
+    document.querySelector("#machineArrowA").textContent = `× ${data.multiplier} →`;
+    document.querySelector("#machineArrowB").textContent = `× ${data.multiplier} →`;
+    document.querySelector("#solveFactor").textContent = `${x} ÷ ${data.a} = ${data.multiplier}`;
+    document.querySelector("#solveUnknown").textContent = `${data.b} × ${data.multiplier} = ${y}`;
     document.querySelector("#basePair").textContent = `${data.a} : ${data.b}`;
     document.querySelector("#factorValue").textContent = `× ${data.multiplier}`;
     document.querySelector("#unknownValue").textContent = y;
-    els.challenge.innerHTML = challenge(`${data.a} : ${data.b} = ${x} : ${y}`, t(ml(`Kedua-dua nilai didarab dengan ${data.multiplier}.`, `两个数都乘以 ${data.multiplier}。`, `Both values are multiplied by ${data.multiplier}.`)));
-    els.summary.textContent = `${data.b} × ${data.multiplier} = ${y}`;
+    els.challenge.innerHTML = challenge(`${data.a} : ${data.b} = ${x} : □`, t(ml("Cari faktor pada baris atas, kemudian lengkapkan kotak.", "先从上排找倍数，再完成方格里的未知数。", "Find the multiplier on the top row, then complete the box.")));
+    els.summary.textContent = t(ml(`Jawapan: ${data.b} × ${data.multiplier} = ${y}`, `答案：${data.b} × ${data.multiplier} = ${y}`, `Answer: ${data.b} × ${data.multiplier} = ${y}`));
   }
 }
 
 function renderMapScale() {
   const data = state.values.mapScale;
-  els.stage.innerHTML = `<div class="scale-map"><div id="mapCard" class="map-card"><div id="roadH" class="map-road"></div><div id="roadV" class="map-road"></div><button class="map-place" data-map-point="A" style="--place:#0d806b"><span>A</span></button><button class="map-place" data-map-point="B" style="--place:#8062c6"><span>B</span></button></div><div class="formula-card"><span>${t(I18N.scale)}</span><strong id="scaleText"></strong><span>${t(I18N.mapDistance)}</span><strong id="mapDistanceText"></strong><span>${t(I18N.actualDistance)}</span><strong id="actualDistanceText"></strong></div></div>`;
-  els.controls.innerHTML = `${rangeControl("mapScaleValue", t(I18N.scale), data.scale, 1, 10, state.lang === "zh" ? "km/cm" : "km/cm")}<div class="action-row"><button id="newExampleButton" class="primary-button" type="button">🎲 ${t(I18N.newExample)}</button></div>`;
-  document.querySelector("#mapScaleValue").addEventListener("input", (e) => { data.scale = +e.target.value; document.querySelector("#mapScaleValueOut").textContent = `${data.scale} km/cm`; updateMapDom(); });
+  els.stage.innerHTML = `<div class="stage-stack"><div class="scale-map"><div id="mapCard" class="map-card"><div class="map-grid-note">▦ ${t(ml("1 petak peta = 1 cm", "地图 1 格 = 1 cm", "1 map square = 1 cm"))}</div><div id="roadH" class="map-road horizontal"></div><div id="roadV" class="map-road vertical"></div><div id="mapHCount" class="map-count map-count-h"></div><div id="mapVCount" class="map-count map-count-v"></div><button class="map-place" data-map-point="A" style="--place:#0d806b"><span>A</span></button><div class="map-place-caption" data-map-caption="A">🏫 ${t(ml("Sekolah A", "学校 A", "School A"))}</div><button class="map-place" data-map-point="B" style="--place:#8062c6"><span>B</span></button><div class="map-place-caption" data-map-caption="B">🏠 ${t(ml("Rumah B", "住家 B", "Home B"))}</div></div><div class="formula-card"><span>${t(ml("Maksud skala", "比例尺的意思", "Scale means"))}</span><strong id="scaleText"></strong><span>${t(ml("Jumlah petak peta", "地图总格数", "Total map squares"))}</span><strong id="mapDistanceText"></strong><span>${t(ml("Jarak sebenar", "实际距离", "Actual distance"))}</span><strong id="actualDistanceText"></strong></div></div><div class="map-learning-steps"><div><b>1</b><span>${t(ml("Kira petak", "先数格", "Count squares"))}</span><strong id="mapStep1"></strong></div><div><b>2</b><span>${t(ml("Tukar kepada cm peta", "换成图上 cm", "Convert to map cm"))}</span><strong id="mapStep2"></strong></div><div><b>3</b><span>${t(ml("Tukar kepada km sebenar", "换成实际 km", "Convert to real km"))}</span><strong id="mapStep3"></strong></div></div></div>`;
+  els.controls.innerHTML = `${rangeControl("mapScaleValue", t(ml("Setiap 1 cm pada peta mewakili", "地图每 1 cm 代表", "Every 1 map cm represents")), data.scale, 1, 10, "km")}<div class="action-row"><button id="newExampleButton" class="primary-button" type="button">🎲 ${t(I18N.newExample)}</button></div>`;
+  document.querySelector("#mapScaleValue").addEventListener("input", (e) => { data.scale = +e.target.value; document.querySelector("#mapScaleValueOut").textContent = `${data.scale} km`; updateMapDom(); });
   document.querySelector("#newExampleButton").addEventListener("click", randomizeCurrent);
   attachMapHandlers(); updateMapDom();
 }
@@ -450,17 +473,25 @@ function updateMapDom() {
     const pos = mapPosition(data[name]);
     const node = document.querySelector(`[data-map-point="${name}"]`);
     node.style.left = `${pos.left}%`; node.style.top = `${pos.top}%`;
+    const caption = document.querySelector(`[data-map-caption="${name}"]`);
+    caption.style.left = `${pos.left}%`; caption.style.top = `${pos.top + 9}%`;
   });
   const a = mapPosition(data.A), b = mapPosition(data.B);
   const h = document.querySelector("#roadH"), v = document.querySelector("#roadV");
   h.style.left = `${Math.min(a.left,b.left)}%`; h.style.top = `${a.top}%`; h.style.width = `${Math.abs(b.left-a.left)}%`;
-  v.style.left = `${b.left}%`; v.style.top = `${Math.min(a.top,b.top)}%`; v.style.width = `${Math.abs(b.top-a.top)}%`; v.style.transform = "rotate(90deg)";
+  v.style.left = `${b.left}%`; v.style.top = `${Math.min(a.top,b.top)}%`; v.style.height = `${Math.abs(b.top-a.top)}%`;
   const dx = Math.abs(data.B.x-data.A.x), dy = Math.abs(data.B.y-data.A.y), mapDistance = dx + dy, actual = mapDistance * data.scale;
-  document.querySelector("#scaleText").textContent = `1 cm : ${data.scale} km`;
-  document.querySelector("#mapDistanceText").textContent = `${mapDistance} cm`;
+  const hCount = document.querySelector("#mapHCount"), vCount = document.querySelector("#mapVCount");
+  hCount.style.left = `${(a.left+b.left)/2}%`; hCount.style.top = `${a.top - 7}%`; hCount.textContent = `↔ ${dx} ${t(ml("petak", "格", "squares"))}`;
+  vCount.style.left = `${b.left + 3}%`; vCount.style.top = `${(a.top+b.top)/2}%`; vCount.textContent = `↕ ${dy} ${t(ml("petak", "格", "squares"))}`;
+  document.querySelector("#scaleText").textContent = `1 cm → ${data.scale} km`;
+  document.querySelector("#mapDistanceText").textContent = `${dx} + ${dy} = ${mapDistance} ${t(ml("petak", "格", "squares"))}`;
   document.querySelector("#actualDistanceText").textContent = `${actual} km`;
-  els.challenge.innerHTML = challenge(`${mapDistance} cm × ${data.scale} km/cm = ${actual} km`, t(ml("Laluan peta bergerak mengufuk dan mencancang.", "地图路线沿横向和直向移动。", "The map route moves horizontally and vertically.")));
-  els.summary.textContent = t(ml(`Skala 1 cm mewakili ${data.scale} km jarak sebenar.`, `比例尺：图上 1 cm 表示实际 ${data.scale} km。`, `Scale: 1 cm represents ${data.scale} km in reality.`));
+  document.querySelector("#mapStep1").textContent = `${dx} + ${dy} = ${mapDistance} ${t(ml("petak", "格", "squares"))}`;
+  document.querySelector("#mapStep2").textContent = `${mapDistance} ${t(ml("petak", "格", "squares"))} = ${mapDistance} cm`;
+  document.querySelector("#mapStep3").textContent = `${mapDistance} × ${data.scale} = ${actual} km`;
+  els.challenge.innerHTML = challenge(t(ml(`Peta ${mapDistance} cm → sebenar ${actual} km`, `图上 ${mapDistance} cm → 实际 ${actual} km`, `Map ${mapDistance} cm → real ${actual} km`)), t(ml("Ikut langkah 1, 2 dan 3 di bawah peta.", "请跟着地图下面的第 1、2、3 步。", "Follow steps 1, 2 and 3 below the map.")));
+  els.summary.textContent = t(ml(`${mapDistance} petak = ${mapDistance} cm; ${mapDistance} × ${data.scale} = ${actual} km`, `${mapDistance} 格 = ${mapDistance} cm；${mapDistance} × ${data.scale} = ${actual} km`, `${mapDistance} squares = ${mapDistance} cm; ${mapDistance} × ${data.scale} = ${actual} km`));
 }
 
 function attachMapHandlers() {
